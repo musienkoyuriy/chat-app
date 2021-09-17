@@ -1,0 +1,30 @@
+header {
+  background-color: #333;
+  color: #999;
+  padding: 14px;
+  flex: 0 1 auto;
+}
+
+.chat-workspace {
+    overflow: hidden;
+    display: flex;
+    height: calc(100vh - 60px);
+
+    users {
+      background-color: #333;
+      flex: 3 1 auto;
+      height: 100%;
+      overflow: auto;
+    }
+  
+    chat {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+      flex: 7 1 auto;
+      box-sizing: border-box;
+      padding: 10px;
+      height: 100%;
+      overflow: auto;
+    }
+}

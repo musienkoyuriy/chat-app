@@ -1,0 +1,9 @@
+<section class="users-wrapper">
+    <mat-list class="users" role="list">
+        <mat-list-item (dblclick)="selectUser(user.userName)"
+            *ngFor="let user of onlineUsers$ | async; trackBy: trackByUser" class="user"
+            [class.me]="user.id == ownUser?.id" role="listitem">
+            {{ user.userName }}
+        </mat-list-item>
+    </mat-list>
+</section>

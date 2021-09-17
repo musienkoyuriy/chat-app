@@ -1,0 +1,52 @@
+mat-list-item:nth-of-type(even) {
+    background: #eee;
+}
+
+:host {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    flex: 7 1 auto;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.message-time {
+    font-weight: bold;
+}
+
+mat-list-item span:not(:first-of-type) {
+    margin-left: 8px;
+}
+
+
+.messages-list {
+    flex: 1 1 auto;
+    overflow: auto;
+    height: 100%;
+}
+
+.input-area {
+    display: flex;
+    flex: 0 0 40px;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.emoji {
+    cursor: pointer;
+    position: relative;
+    font-size: 20px;
+    margin: 0 12px;
+  }
+  
+  emoji-mart {
+    z-index: 1;
+    position: absolute;
+    bottom: 25px;
+    right: 0;
+  }
+  

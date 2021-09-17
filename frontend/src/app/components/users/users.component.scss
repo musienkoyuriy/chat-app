@@ -1,0 +1,26 @@
+mat-list {
+    padding: 20px;
+
+    mat-list-item {
+        &:nth-of-type(even) {
+            background: #fff;
+            color: #000;
+        }
+        &:nth-of-type(odd) {
+            background: rgb(121, 206, 231);
+            color: #000;
+        }
+
+        &:last-of-type {
+            border-radius: 0 0 10px 10px;
+        }
+
+        &:first-of-type {
+            border-radius: 10px 10px 0 0;
+        }
+
+        mat-list-item:not(.me) {
+            cursor: pointer;
+        }
+    }
+}

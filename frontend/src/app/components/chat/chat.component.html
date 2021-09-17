@@ -1,0 +1,28 @@
+<section class="messages-list">
+    <mat-list role="list">
+        <mat-list-item *ngFor="let message of messages$ | async; index as i; trackBy: trackByMessage" role="listitem">
+            <span class="message-time">
+                ({{message.time | date: "HH:mm"}})
+            </span>
+            <span class="username">
+                {{message.userName}}
+            </span>
+            <span>
+                {{message.messageText}}
+            </span>
+        </mat-list-item>
+    </mat-list>
+</section>
+<section class="input-area">
+    <mat-form-field floatLabel="never">
+        <mat-label>Message</mat-label>
+        <input type="text" [formControl]="message" (keydown.enter)="sendMessage()" matInput>
+    </mat-form-field>
+    <div class="emoji">
+        <span (click)="toggleEmojiPopup()">😃</span>
+        <emoji-mart (click)="onEmojiClick($event)" (emojiSelect)="onEmojiSelect($event.emoji.native)"
+            [hidden]="!emojiPopupVisible" [darkMode]="true" [isNative]="true" [set]="'google'">
+        </emoji-mart>
+    </div>
+    <button (click)="sendMessage()" mat-raised-button>Send</button>
+</section>
