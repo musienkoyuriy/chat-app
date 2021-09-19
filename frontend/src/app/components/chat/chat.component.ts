@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, TrackByFunction } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, TrackByFunction, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Message } from '../../interfaces/message';
 import { Observable, of } from 'rxjs';
@@ -14,7 +13,7 @@ import { User } from 'src/app/interfaces/user';
 })
 export class ChatComponent implements OnChanges {
   message: FormControl;
-  messages$: Observable<any>
+  messages$: Observable<Message[]>;
 
   @Input() selectedUser = ''
   @Input() ownUser: User | null = {
@@ -23,11 +22,22 @@ export class ChatComponent implements OnChanges {
     active: false
   }
 
+  @ViewChild('messagesList') messagesList;
+  @ViewChild('userInput') userInput;
+
   emojiPopupVisible: boolean = false;
 
   constructor(private chatService: ChatService) {
     this.message = new FormControl('')
     this.messages$ = this.chatService.getChatMessages()
+  }
+
+  scrollToBottom = () => {
+    const chatElement = this.messagesList.nativeElement;
+    chatElement.scrollTo = ({
+      top: chatElement.scrollHeight,
+      behavior: 'smooth'
+    })
   }
 
   trackByMessage: TrackByFunction<Message> = (index: number, message: Message) => message.id;
@@ -63,6 +73,8 @@ export class ChatComponent implements OnChanges {
       this.chatService.sendMessage(newMessage, this.ownUser.id);
     }
     this.message.setValue('')
+    this.scrollToBottom()
+    this.userInput.nativeElement.focus()
   }
 
   toggleEmojiPopup(): void {
