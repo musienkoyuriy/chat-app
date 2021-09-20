@@ -12,15 +12,11 @@ import { User } from 'src/app/interfaces/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnChanges {
-  message: FormControl;
+  userMessage: FormControl;
   messages$: Observable<Message[]>;
 
   @Input() selectedUser = ''
-  @Input() ownUser: User | null = {
-    id: '',
-    userName: '',
-    active: false
-  }
+  @Input() ownUser: User | null;
 
   @ViewChild('messagesList') messagesList;
   @ViewChild('userInput') userInput;
@@ -28,8 +24,9 @@ export class ChatComponent implements OnChanges {
   emojiPopupVisible: boolean = false;
 
   constructor(private chatService: ChatService) {
-    this.message = new FormControl('')
-    this.messages$ = this.chatService.getChatMessages()
+    this.userMessage = new FormControl('')
+    this.chatService.fetchChatMessages()
+    this.messages$ = this.chatService.messagesList$
   }
 
   scrollToBottom = () => {
@@ -55,24 +52,24 @@ export class ChatComponent implements OnChanges {
   }
 
   private addMention(userName: string): void {
-    const messageText = this.message.value.trim()
+    const messageText = this.userMessage.value.trim()
 
     if (!messageText.startsWith(`@${userName}`)) {
-      this.message.setValue(`@${userName} ${messageText}`)
+      this.userMessage.setValue(`@${userName} ${messageText}`)
     }
   }
 
   sendMessage(): void {
-    const newMessage = this.message.value.trim()
+    const newMessage = this.userMessage.value.trim()
 
     if (!newMessage) {
       return
     }
 
     if (this.ownUser) {
-      this.chatService.sendMessage(newMessage, this.ownUser.id);
+      this.chatService.sendMessage(newMessage, this.ownUser);
     }
-    this.message.setValue('')
+    this.userMessage.setValue('')
     this.scrollToBottom()
     this.userInput.nativeElement.focus()
   }
@@ -82,7 +79,7 @@ export class ChatComponent implements OnChanges {
   }
 
   onEmojiSelect(emoji: string) {
-    this.message.patchValue(`${this.message.value} ${emoji}`);
+    this.userMessage.patchValue(`${this.userMessage.value} ${emoji}`);
   }
 
   onEmojiClick(event: MouseEvent): void {

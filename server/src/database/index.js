@@ -28,18 +28,28 @@ class InMemoryDatabase {
         return userExists ? this.generateName() : name
     }
 
+    generateID = () => {
+        return '_' + Math.random().toString(36).substr(2, 9);
+    };
+
     static get Instance() {
         return this._dbInstance || (this._dbInstance = new this());
     }
 
     addMessage({ messageText, userID }) {
+        console.log(messageText)
+        console.log(userID)
         const user = this.users.find(user => user.id == userID)
-        this.messages.push({
+        const newMessage = {
+            id: this.generateID(),
             messageText,
             userName: user.userName,
             userID,
             time: new Date()
-        })
+        }
+        this.messages.push(newMessage)
+
+        return newMessage
     }
 
     newUser(id) {

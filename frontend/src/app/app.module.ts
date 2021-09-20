@@ -11,9 +11,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PickerModule } from '@ctrl/ngx-emoji-mart'
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { ChatComponent } from './components/chat/chat.component';
+
 import { UsersComponent } from './components/users/users.component';
 import { UsersService } from './services/users.service';
+import { ChatComponent } from './components/chat/chat.component';
 
 const socketConfig: SocketIoConfig = {
   url: 'http://localhost:3000',

@@ -30,12 +30,11 @@ io.on('connection', socket => {
 
     socket.on('disconnect', function (user) {
         inMemoryDatabase.unconnectUser(socket.id)
-
         io.emit('users', inMemoryDatabase.users);
     });
 
     socket.on('messageSent', message => {
-        inMemoryDatabase.addMessage(message)
-        io.emit('messages', inMemoryDatabase.messages);
+        const newMessage = inMemoryDatabase.addMessage(message)
+        io.emit('messageSent', newMessage);
     })
 });
